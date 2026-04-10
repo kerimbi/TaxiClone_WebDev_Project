@@ -6,8 +6,6 @@ From assigning drivers to monitoring active trips across an interactive map, Tax
 
 ### Group Members: Ulykbek Dias, Chalak Hatef, Kerimbi Zhanerke
 
----
-
 ## Tech Stack
 
 | Layer | Technology |
@@ -18,19 +16,17 @@ From assigning drivers to monitoring active trips across an interactive map, Tax
 | Auth | JWT (SimpleJWT) |
 | Map | Leaflet.js + OpenStreetMap |
 
----
 
 ## Features
-Authentication: Secure login and logout using JWT tokens with HTTP interceptor.
-Driver Management: Register, update and remove drivers. Each driver is linked to a trip.
-Passenger Management: Full passenger profiles with trip assignment and booking history.
-Fleet Management: Track and manage all vehicles across the fleet.
-Station Management: Define pickup and drop-off points with real map coordinates.
-Trip Management: Passengers can book trips between stations and get assigned a driver.
-Dashboard: Live overview of total drivers, passengers, active trips and fleets.
-Interactive Map: All stations are visualized on a real Almaty map using Leaflet.js. Click any marker to view station details and available trips.
 
----
+1) Authentication: Secure login and logout using JWT tokens with HTTP interceptor.
+2) Driver Management: Register, update and remove drivers. Each driver is linked to a trip.
+3) Passenger Management: Full passenger profiles with trip assignment and booking history.
+4) Fleet Management: Track and manage all vehicles across the fleet.
+5) Station Management: Define pickup and drop-off points with real map coordinates.
+6) Trip Management: Passengers can book trips between stations and get assigned a driver.
+7) Dashboard: Live overview of total drivers, passengers, active trips and fleets.
+8) Interactive Map: All stations are visualized on a real Almaty map using Leaflet.js. Click any marker to view station details and available trips.
 
 ## User Roles
 
