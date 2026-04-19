@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uber-like Taxi App — KBTU Project Documentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+  :root {
+    --bg: #0f172a; --surface: #1e293b; --border: #334155;
+    --text: #f1f5f9; --muted: #94a3b8;
+    --blue: #38bdf8; --green: #4ade80; --yellow: #fbbf24;
+    --purple: #a78bfa; --red: #f87171;
+    --student-a: #0ea5e9; --student-b: #8b5cf6; --student-c: #10b981;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .cover {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center; padding: 40px;
+    border-bottom: 2px solid var(--border);
+  }
+  .cover-badge { background: rgba(56,189,248,0.15); border: 1px solid var(--blue);
+    color: var(--blue); border-radius: 30px; padding: 8px 24px; font-size: 14px;
+    font-weight: 600; margin-bottom: 32px; display: inline-block; }
+  .cover h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 800; line-height: 1.1;
+    background: linear-gradient(135deg, #38bdf8, #a78bfa, #4ade80);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
+  .cover p { font-size: 18px; color: var(--muted); max-width: 600px; margin: 0 auto 40px; }
+  .tech-pills { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 48px; }
+  .pill { background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 500; }
+  .student-tags { display: flex; gap: 16px; justify-content: center; }
+  .student-tag { border-radius: 12px; padding: 12px 24px; font-weight: 700; font-size: 14px; }
+  .tag-a { background: rgba(14,165,233,0.15); border: 1px solid var(--student-a); color: var(--student-a); }
+  .tag-b { background: rgba(139,92,246,0.15); border: 1px solid var(--student-b); color: var(--student-b); }
+  .tag-c { background: rgba(16,185,129,0.15); border: 1px solid var(--student-c); color: var(--student-c); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+  .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; margin-bottom: 60px; }
+  .toc h2 { font-size: 22px; font-weight: 700; margin-bottom: 20px; }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+  .toc-item { background: var(--bg); border-radius: 10px; padding: 14px;
+    border: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+  .toc-num { width: 32px; height: 32px; border-radius: 8px; display: flex;
+    align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+  .num-a { background: rgba(14,165,233,0.2); color: var(--student-a); }
+  .num-b { background: rgba(139,92,246,0.2); color: var(--student-b); }
+  .num-c { background: rgba(16,185,129,0.2); color: var(--student-c); }
+  .section { margin-bottom: 80px; }
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px;
+    padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .student-badge { border-radius: 12px; padding: 8px 20px; font-weight: 700; font-size: 16px; }
+  .badge-a { background: rgba(14,165,233,0.2); border: 2px solid var(--student-a); color: var(--student-a); }
+  .badge-b { background: rgba(139,92,246,0.2); border: 2px solid var(--student-b); color: var(--student-b); }
+  .badge-c { background: rgba(16,185,129,0.2); border: 2px solid var(--student-c); color: var(--student-c); }
+  .section-header h2 { font-size: 26px; font-weight: 700; }
+  .section-header p { color: var(--muted); font-size: 14px; }
+  .file-block { margin-bottom: 32px; }
+  .file-label { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .file-icon { font-size: 18px; }
+  .file-path { font-family: 'Fira Code', monospace; font-size: 13px;
+    color: var(--blue); background: rgba(56,189,248,0.1); padding: 4px 12px; border-radius: 8px; }
+  .file-desc { color: var(--muted); font-size: 13px; }
+  pre { background: #0d1117; border: 1px solid var(--border); border-radius: 12px;
+    padding: 24px; overflow-x: auto; font-family: 'Fira Code', monospace;
+    font-size: 12.5px; line-height: 1.7; position: relative; }
+  .lang-tag { position: absolute; top: 12px; right: 16px; font-size: 11px;
+    color: var(--muted); font-family: 'Inter', sans-serif; }
+  .kw  { color: #ff79c6; }
+  .str { color: #f1fa8c; }
+  .cm  { color: #6272a4; font-style: italic; }
+  .fn  { color: #50fa7b; }
+  .cl  { color: #8be9fd; }
+  .dec { color: #ffb86c; }
+  .arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+  .arch-card { background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px; }
+  .arch-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .arch-card ul { list-style: none; }
+  .arch-card li { padding: 5px 0; color: var(--muted); font-size: 13px;
+    border-bottom: 1px solid #1e293b; display: flex; align-items: center; gap: 8px; }
+  .arch-card li::before { content: '▸'; color: var(--blue); }
+  .api-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 13px; }
+  .api-table th { background: var(--surface); padding: 12px 16px; text-align: left;
+    font-weight: 600; border: 1px solid var(--border); color: var(--muted); }
+  .api-table td { padding: 11px 16px; border: 1px solid var(--border); }
+  .api-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .method { border-radius: 6px; padding: 3px 10px; font-family: 'Fira Code', monospace;
+    font-size: 11px; font-weight: 600; }
+  .get    { background: rgba(74,222,128,0.15); color: var(--green); }
+  .post   { background: rgba(56,189,248,0.15); color: var(--blue); }
+  .put    { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .delete { background: rgba(248,113,113,0.15); color: var(--red); }
+  .ws     { background: rgba(167,139,250,0.15); color: var(--purple); }
+  footer { background: var(--surface); border-top: 1px solid var(--border);
+    padding: 40px 24px; text-align: center; color: var(--muted); font-size: 14px; }
+  @media print {
+    .cover { page-break-after: always; }
+    .section { page-break-before: always; }
+    pre { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+  <div class="cover-badge">🎓 KBTU Project Documentation — 2024/2025</div>
+  <h1>Uber-like Taxi App</h1>
+  <p>A full-stack real-time ride-hailing application built with Django REST Framework, Angular 17, PostGIS, Django Channels, and Stripe Payments.</p>
+  <div class="tech-pills">
+    <span class="pill">🐍 Django 4.2</span><span class="pill">🗺 PostGIS</span>
+    <span class="pill">⚡ WebSockets</span><span class="pill">🅰 Angular 17</span>
+    <span class="pill">🐳 Docker</span><span class="pill">💳 Stripe</span>
+    <span class="pill">🔑 JWT Auth</span><span class="pill">🔴 Redis</span>
+  </div>
+  <div class="student-tags">
+    <div class="student-tag tag-a">Student A — Infrastructure &amp; Auth</div>
+    <div class="student-tag tag-b">Student B — Geospatial &amp; WebSockets</div>
+    <div class="student-tag tag-c">Student C — Trips &amp; Payments</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <h2>📑 Table of Contents</h2>
+    <div class="toc-grid">
+      <div class="toc-item"><div class="toc-num num-a">A1</div><div><strong>Docker &amp; Infrastructure</strong><br><small style="color:var(--muted)">compose, Dockerfile, settings.py</small></div></div>
+      <div class="toc-item"><div class="toc-num num-a">A2</div><div><strong>Custom User Model</strong><br><small style="color:var(--muted)">AbstractUser, roles, JWT</small></div></div>
+      <div class="toc-item"><div class="toc-num num-a">A3</div><div><strong>Angular Auth Layer</strong><br><small style="color:var(--muted)">AuthService, Interceptor, Login/Register</small></div></div>
+      <div class="toc-item"><div class="toc-num num-b">B1</div><div><strong>PostGIS Driver Model</strong><br><small style="color:var(--muted)">PointField, nearby_drivers query</small></div></div>
+      <div class="toc-item"><div class="toc-num num-b">B2</div><div><strong>Django Channels / WebSockets</strong><br><small style="color:var(--muted)">TripConsumer, ASGI routing</small></div></div>
+      <div class="toc-item"><div class="toc-num num-b">B3</div><div><strong>Angular Map Tracking</strong><br><small style="color:var(--muted)">Google Maps, WebSocketService</small></div></div>
+      <div class="toc-item"><div class="toc-num num-c">C1</div><div><strong>Trip Lifecycle</strong><br><small style="color:var(--muted)">Request, Accept, Complete, Cancel</small></div></div>
+      <div class="toc-item"><div class="toc-num num-c">C2</div><div><strong>Stripe Payments</strong><br><small style="color:var(--muted)">PaymentIntent, Webhook</small></div></div>
+      <div class="toc-item"><div class="toc-num num-c">C3</div><div><strong>Angular Booking UI</strong><br><small style="color:var(--muted)">Book Trip, Trips List, Dashboard</small></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ STUDENT A ═══ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="student-badge badge-a">Student A</div>
+      <div>
+        <h2>Infrastructure, Auth Backend &amp; Angular Auth Layer</h2>
+        <p>Docker orchestration · Custom User Model · JWT · Login/Register UI · HTTP Interceptor</p>
+      </div>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <h4>🐳 Docker Services</h4>
+        <ul>
+          <li>postgis/postgis:15-3.3 — Spatial database</li>
+          <li>redis:7-alpine — Channel layer backend</li>
+          <li>backend — Django on port 8000</li>
+          <li>daphne — ASGI WebSocket server (8001)</li>
+          <li>frontend — Angular dev server (4200)</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h4>🔑 JWT Auth Flow</h4>
+        <ul>
+          <li>POST /api/auth/register/ → access + refresh tokens</li>
+          <li>POST /api/auth/login/    → access + refresh tokens</li>
+          <li>POST /api/auth/refresh/  → new access token</li>
+          <li>GET  /api/auth/profile/  → current user data</li>
+          <li>Interceptor adds Bearer header to all requests</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="file-block">
+      <div class="file-label">
+        <span class="file-icon">⚙️</span>
+        <code class="file-path">backend/config/settings.py</code>
+        <span class="file-desc">— PostGIS, Channels, JWT, CORS configuration</span>
+      </div>
+      <pre><span class="cm"># Key settings for PostGIS + Channels + JWT</span>
+
+<span class="kw">INSTALLED_APPS</span> = [
+    <span class="str">"django.contrib.gis"</span>,    <span class="cm"># PostGIS support</span>
+    <span class="str">"channels"</span>,              <span class="cm"># WebSockets</span>
+    <span class="str">"rest_framework"</span>,
+    <span class="str">"rest_framework_simplejwt"</span>,
+    <span class="str">"corsheaders"</span>,
+    <span class="str">"users"</span>, <span class="str">"trips"</span>, <span class="str">"drivers"</span>, <span class="str">"payments"</span>,
+]
+
+<span class="cm"># PostGIS database backend</span>
+<span class="kw">DATABASES</span> = {
+    <span class="str">"default"</span>: {
+        <span class="str">"ENGINE"</span>: <span class="str">"django.contrib.gis.db.backends.postgis"</span>,
+        ...
+    }
+}
+
+<span class="cm"># Redis-backed channel layer</span>
+<span class="kw">CHANNEL_LAYERS</span> = {
+    <span class="str">"default"</span>: {
+        <span class="str">"BACKEND"</span>: <span class="str">"channels_redis.core.RedisChannelLayer"</span>,
+        <span class="str">"CONFIG"</span>: {<span class="str">"hosts"</span>: [<span class="kw">REDIS_URL</span>]},
+    }
+}
+
+<span class="cm"># JWT — 1h access, 7d refresh, rotation enabled</span>
+<span class="kw">SIMPLE_JWT</span> = {
+    <span class="str">"ACCESS_TOKEN_LIFETIME"</span>:  <span class="fn">timedelta</span>(hours=<span class="dec">1</span>),
+    <span class="str">"REFRESH_TOKEN_LIFETIME"</span>: <span class="fn">timedelta</span>(days=<span class="dec">7</span>),
+    <span class="str">"ROTATE_REFRESH_TOKENS"</span>:  <span class="kw">True</span>,
+}
+<span class="lang-tag">Python</span></pre>
+    </div>
+
+    <div class="file-block">
+      <div class="file-label">
+        <span class="file-icon">👤</span>
+        <code class="file-path">backend/users/models.py</code>
+        <span class="file-desc">— CustomUser extending AbstractUser</span>
+      </div>
+      <pre><span class="kw">class</span> <span class="cl">CustomUser</span>(<span class="cl">AbstractUser</span>):
+    <span class="kw">class</span> <span class="cl">Role</span>(<span class="cl">models.TextChoices</span>):
+        <span class="kw">RIDER</span>  = <span class="str">"rider"</span>,  <span class="str">"Rider"</span>
+        <span class="kw">DRIVER</span> = <span class="str">"driver"</span>, <span class="str">"Driver"</span>
+        <span class="kw">ADMIN</span>  = <span class="str">"admin"</span>,  <span class="str">"Admin"</span>
+
+    role        = <span class="fn">models.CharField</span>(max_length=<span class="dec">10</span>, choices=<span class="kw">Role</span>.choices, default=<span class="kw">Role</span>.<span class="kw">RIDER</span>)
+    phone       = <span class="fn">models.CharField</span>(max_length=<span class="dec">20</span>, blank=<span class="kw">True</span>)
+    profile_pic = <span class="fn">models.ImageField</span>(upload_to=<span class="str">"profiles/"</span>, null=<span class="kw">True</span>, blank=<span class="kw">True</span>)
+    rating      = <span class="fn">models.DecimalField</span>(max_digits=<span class="dec">3</span>, decimal_places=<span class="dec">2</span>, default=<span class="dec">5.00</span>)
+<span class="lang-tag">Python</span></pre>
+    </div>
+
+    <div class="file-block">
+      <div class="file-label">
+        <span class="file-icon">🅰</span>
+        <code class="file-path">frontend/src/app/interceptors/auth.interceptor.ts</code>
+        <span class="file-desc">— Automatically attaches JWT to every HTTP request</span>
+      </div>
+      <pre><span class="kw">export const</span> <span class="fn">authInterceptor</span>: <span class="cl">HttpInterceptorFn</span> = (req, next) => {
+  <span class="kw">const</span> auth  = <span class="fn">inject</span>(<span class="cl">AuthService</span>);
+  <span class="kw">const</span> token = auth.<span class="fn">getToken</span>();
+
+  <span class="kw">if</span> (token) {
+    req = req.<span class="fn">clone</span>({
+      setHeaders: { Authorization: <span class="str">`Bearer <span class="kw">${token}</span>`</span> }
+    });
+  }
+  <span class="kw">return</span> <span class="fn">next</span>(req);
+};
+<span class="lang-tag">TypeScript</span></pre>
+    </div>
+  </div>
+
+  <!-- ═══ STUDENT B ═══ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="student-badge badge-b">Student B</div>
+      <div>
+        <h2>Geospatial Logic, Django Channels &amp; Angular Map Tracking</h2>
+        <p>PostGIS PointField · nearby_drivers query · TripConsumer WebSocket · Google Maps integration</p>
+      </div>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <h4>🗺 PostGIS Spatial Query</h4>
+        <ul>
+          <li>PointField(geography=True) for accurate distance</li>
+          <li>distance_lte filter with D(km=radius)</li>
+          <li>annotate(distance=Distance(...)) for ordering</li>
+          <li>Returns 20 nearest available drivers</li>
+          <li>SRID 4326 (WGS84 — standard GPS)</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h4>⚡ WebSocket Channels</h4>
+        <ul>
+          <li>ws/trip/&lt;id&gt;/ — per-trip room (rider + driver)</li>
+          <li>ws/map/ — broadcast driver positions to riders</li>
+          <li>Redis channel layer for multi-process pub/sub</li>
+          <li>Event types: location_update, status_update, chat</li>
+          <li>AsyncWebsocketConsumer (non-blocking)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="file-block">
+      <div class="file-label">
+        <span class="file-icon">📍</span>
+        <code class="file-path">backend/drivers/views.py — nearby_drivers()</code>
+        <span class="file-desc">— PostGIS spatial query for finding available drivers</span>
+      </div>
+      <pre><span class="dec">@api_view</span>([<span class="str">"GET"</span>])
+<span class="dec">@permission_classes</span>([<span class="cl">IsAuthenticated</span>])
+<span class="kw">def</span> <span class="fn">nearby_drivers</span>(request):
+    lat    = <span class="fn">float</span>(request.query_params[<span class="str">"lat"</span>])
+    lng    = <span class="fn">float</span>(request.query_params[<span class="str">"lng"</span>])
+    radius = <span class="fn">float</span>(request.query_params.get(<span class="str">"radius"</span>, <span class="dec">5</span>))
+
+    user_location = <span class="fn">Point</span>(lng, lat, srid=<span class="dec">4326</span>)
+
+    drivers = (
+        <span class="cl">DriverProfile</span>.objects
+        .<span class="fn">filter</span>(status=<span class="cl">DriverProfile</span>.<span class="cl">Status</span>.<span class="kw">AVAILABLE</span>, location__isnull=<span class="kw">False</span>)
+        .<span class="fn">filter</span>(location__distance_lte=(user_location, <span class="fn">D</span>(km=radius)))
+        .<span class="fn">annotate</span>(distance=<span class="fn">Distance</span>(<span class="str">"location"</span>, user_location))
+        .<span class="fn">order_by</span>(<span class="str">"distance"</span>)[:<span class="dec">20</span>]
+    )
+    <span class="kw">return</span> <span class="fn">Response</span>(<span class="cl">DriverProfileSerializer</span>(drivers, many=<span class="kw">True</span>).data)
+<span class="lang-tag">Python</span></pre>
+    </div>
+
+    <div class="file-block">
+      <div class="file-label">
+        <span class="file-icon">🔌</span>
+        <code class="file-path">backend/trips/consumers.py — TripConsumer</code>
+        <span class="file-desc">— Django Channels WebSocket consumer for real-time trip events</span>
+      </div>
+      <pre><span class="kw">class</span> <span class="cl">TripConsumer</span>(<span class="cl">AsyncWebsocketConsumer</span>):
+    <span class="kw">async def</span> <span class="fn">connect</span>(<span class="kw">self</span>):
+        <span class="kw">self</span>.group_name = <span class="str">f"trip_<span class="kw">{self.scope['url_route']['kwargs']['trip_id']}</span>"</span>
+        <span class="kw">await</span> <span class="kw">self</span>.channel_layer.<span class="fn">group_add</span>(<span class="kw">self</span>.group_name, <span class="kw">self</span>.channel_name)
+        <span class="kw">await self</span>.<span class="fn">accept</span>()
+
+    <span class="kw">async def</span> <span class="fn">receive</span>(<span class="kw">self</span>, text_data=<span class="kw">None</span>, ...):
+        data = json.<span class="fn">loads</span>(text_data)
+        <span class="kw">if</span> data[<span class="str">"type"</span>] == <span class="str">"location_update"</span>:
+            <span class="cm"># Broadcast driver GPS to all group members</span>
+            <span class="kw">await</span> <span class="kw">self</span>.channel_layer.<span class="fn">group_send</span>(<span class="kw">self</span>.group_name, {
+                <span class="str">"type"</span>:     <span class="str">"driver_location"</span>,
+                <span class="str">"latitude"</span>: data[<span class="str">"latitude"</span>],
+                <span class="str">"longitude"</span>:data[<span class="str">"longitude"</span>],
+            })
+<span class="lang-tag">Python</span></pre>
+    </div>
+
+    <div class="file-block">
+      <div class="file-label">
+        <span class="file-icon">🗺</span>
+        <code class="file-path">frontend/src/app/services/websocket.service.ts</code>
+        <span class="file-desc">— Angular WebSocket service wrapping native browser WebSocket API</span>
+      </div>
+      <pre><span class="dec">@Injectable</span>({ providedIn: <span class="str">'root'</span> })
+<span class="kw">export class</span> <span class="cl">WebSocketService</span> {
+  <span class="kw">private</span> messages$ = <span class="kw">new</span> <span class="cl">Subject</span>&lt;<span class="cl">WsMessage</span>&gt;();
+
+  <span class="fn">connectToTrip</span>(tripId: <span class="cl">number</span>): <span class="kw">void</span> {
+    <span class="kw">this</span>.<span class="fn">connect</span>(<span class="str">`ws://localhost:8001/ws/trip/<span class="kw">${tripId}</span>/`</span>);
+  }
+
+  <span class="fn">sendLocation</span>(latitude: <span class="cl">number</span>, longitude: <span class="cl">number</span>): <span class="kw">void</span> {
+    <span class="kw">this</span>.<span class="fn">send</span>({ type: <span class="str">'location_update'</span>, latitude, longitude });
+  }
+
+  <span class="fn">getMessages</span>(): <span class="cl">Observable</span>&lt;<span class="cl">WsMessage</span>&gt; {
+    <span class="kw">return this</span>.messages$.asObservable();
+  }
+}
+<span class="lang-tag">TypeScript</span></pre>
+    </div>
+  </div>
+
+  <!-- ═══ STUDENT C ═══ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="student-badge badge-c">Student C</div>
+      <div>
+        <h2>Trip Lifecycle, Stripe Payments &amp; Angular Booking UI</h2>
+        <p>Request/Accept/Complete/Cancel · Haversine fare estimation · PaymentIntent · Booking components</p>
+      </div>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <h4>🚕 Trip Status Machine</h4>
+        <ul>
+          <li>REQUESTED → fare estimated via Haversine</li>
+          <li>ACCEPTED  → driver assigned, driver goes ON_TRIP</li>
+          <li>IN_TRANSIT → en route to destination</li>
+          <li>COMPLETED → driver freed, total_trips ++</li>
+          <li>CANCELLED → available at any pre-complete stage</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h4>💳 Stripe Payment Flow</h4>
+        <ul>
+          <li>POST /api/payments/create-intent/ → client_secret</li>
+          <li>Angular uses client_secret with Stripe.js</li>
+          <li>Webhook updates Payment.status on confirmation</li>
+          <li>Amount in KZT (tiyn = smallest unit same as KZT)</li>
+          <li>Webhook signature verified in production</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="file-block">
+      <div class="file-label">
+        <span class="file-icon">🚗</span>
+        <code class="file-path">backend/trips/views.py — request_trip()</code>
+        <span class="file-desc">— Haversine distance + fare calculation on trip request</span>
+      </div>
+      <pre><span class="kw">def</span> <span class="fn">haversine_km</span>(lat1, lng1, lat2, lng2):
+    R = <span class="dec">6371</span>
+    phi1, phi2 = math.<span class="fn">radians</span>(lat1), math.<span class="fn">radians</span>(lat2)
+    dphi = math.<span class="fn">radians</span>(lat2 - lat1)
+    dlam = math.<span class="fn">radians</span>(lng2 - lng1)
+    a = math.<span class="fn">sin</span>(dphi/<span class="dec">2</span>)**<span class="dec">2</span> + math.<span class="fn">cos</span>(phi1)*math.<span class="fn">cos</span>(phi2)*math.<span class="fn">sin</span>(dlam/<span class="dec">2</span>)**<span class="dec">2</span>
+    <span class="kw">return</span> <span class="dec">2</span> * R * math.<span class="fn">asin</span>(math.<span class="fn">sqrt</span>(a))
+
+<span class="kw">def</span> <span class="fn">calculate_fare</span>(distance_km):
+    <span class="kw">return</span> <span class="fn">round</span>(<span class="dec">300</span> + distance_km * <span class="dec">120</span>, <span class="dec">2</span>)  <span class="cm"># 300₸ base + 120₸/km</span>
+<span class="lang-tag">Python</span></pre>
+    </div>
+
+    <div class="file-block">
+      <div class="file-label">
+        <span class="file-icon">💳</span>
+        <code class="file-path">backend/payments/views.py — create_payment_intent()</code>
+        <span class="file-desc">— Stripe PaymentIntent creation for frontend payment confirmation</span>
+      </div>
+      <pre><span class="dec">@api_view</span>([<span class="str">"POST"</span>])
+<span class="kw">def</span> <span class="fn">create_payment_intent</span>(request):
+    trip = <span class="cl">Trip</span>.objects.<span class="fn">get</span>(pk=trip_id, rider=request.user)
+    amount_tiyn = <span class="fn">int</span>(trip.fare_estimate * <span class="dec">100</span>)
+
+    intent = stripe.<span class="cl">PaymentIntent</span>.<span class="fn">create</span>(
+        amount      = amount_tiyn,
+        currency    = <span class="str">"kzt"</span>,
+        description = <span class="str">f"TaxiApp Trip #<span class="kw">{trip.pk}</span>"</span>,
+        metadata    = {<span class="str">"trip_id"</span>: trip.pk},
+    )
+    <span class="kw">return</span> <span class="fn">Response</span>({<span class="str">"client_secret"</span>: intent[<span class="str">"client_secret"</span>], <span class="str">"amount"</span>: trip.fare_estimate})
+<span class="lang-tag">Python</span></pre>
+    </div>
+
+    <h3 style="margin:32px 0 16px; font-size:18px;">📡 Complete API Endpoints</h3>
+    <table class="api-table">
+      <thead>
+        <tr><th>Method</th><th>URL</th><th>Description</th><th>Auth</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="method post">POST</span></td><td>/api/auth/register/</td><td>Register new user, returns tokens</td><td>Public</td></tr>
+        <tr><td><span class="method post">POST</span></td><td>/api/auth/login/</td><td>Login, returns JWT tokens</td><td>Public</td></tr>
+        <tr><td><span class="method post">POST</span></td><td>/api/auth/refresh/</td><td>Refresh access token</td><td>Public</td></tr>
+        <tr><td><span class="method get">GET</span></td><td>/api/auth/profile/</td><td>Get current user profile</td><td>JWT</td></tr>
+        <tr><td><span class="method get">GET</span></td><td>/api/drivers/nearby/?lat&amp;lng&amp;radius</td><td>PostGIS nearby drivers query</td><td>JWT</td></tr>
+        <tr><td><span class="method post">POST</span></td><td>/api/drivers/location/update/</td><td>Driver updates GPS position</td><td>JWT</td></tr>
+        <tr><td><span class="method get">GET</span></td><td>/api/trips/</td><td>List my trips</td><td>JWT</td></tr>
+        <tr><td><span class="method post">POST</span></td><td>/api/trips/request/</td><td>Request a new trip + fare estimate</td><td>JWT</td></tr>
+        <tr><td><span class="method post">POST</span></td><td>/api/trips/{id}/accept/</td><td>Driver accepts trip</td><td>JWT</td></tr>
+        <tr><td><span class="method post">POST</span></td><td>/api/trips/{id}/complete/</td><td>Driver completes trip</td><td>JWT</td></tr>
+        <tr><td><span class="method post">POST</span></td><td>/api/trips/{id}/cancel/</td><td>Cancel trip</td><td>JWT</td></tr>
+        <tr><td><span class="method post">POST</span></td><td>/api/payments/create-intent/</td><td>Create Stripe PaymentIntent</td><td>JWT</td></tr>
+        <tr><td><span class="method get">GET</span></td><td>/api/payments/history/</td><td>Rider's payment history</td><td>JWT</td></tr>
+        <tr><td><span class="method post">POST</span></td><td>/api/payments/webhook/</td><td>Stripe webhook endpoint</td><td>Public</td></tr>
+        <tr><td><span class="method ws">WS</span></td><td>ws://…:8001/ws/trip/{id}/</td><td>Real-time trip events</td><td>—</td></tr>
+        <tr><td><span class="method ws">WS</span></td><td>ws://…:8001/ws/map/</td><td>Driver availability broadcast</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>🎓 KBTU Full-Stack Project — Uber-like Taxi App</p>
+  <p style="margin-top:8px">Django + Angular + PostGIS + Channels + Stripe · Generated with Python automation script</p>
+</footer>
+</body>
+</html>
