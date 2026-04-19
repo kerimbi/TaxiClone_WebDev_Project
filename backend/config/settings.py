@@ -14,7 +14,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.gis",           # PostGIS
+    #"django.contrib.gis",
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
@@ -55,15 +55,10 @@ TEMPLATES = [{
 }]
 
 # ── Database (PostGIS) ────────────────────────────────────────────────────────
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgis://taxiuser:taxipass@localhost:5432/taxidb")
 DATABASES = {
     "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",
-        "NAME":     DATABASE_URL.split("/")[-1],
-        "USER":     DATABASE_URL.split("//")[1].split(":")[0],
-        "PASSWORD": DATABASE_URL.split(":")[2].split("@")[0],
-        "HOST":     DATABASE_URL.split("@")[1].split(":")[0],
-        "PORT":     DATABASE_URL.split(":")[-1].split("/")[0],
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 

@@ -19,4 +19,6 @@ export const routes: Routes = [
   { path: 'trips',   loadComponent: () => import('./pages/trips/trips.component').then(m => m.TripsComponent), canActivate: [authGuard] },
   { path: 'map/:id', loadComponent: () => import('./pages/map-tracking/map-tracking.component').then(m => m.MapTrackingComponent), canActivate: [authGuard] },
   { path: 'driver', loadComponent: () => import('./pages/driver-trips/driver-trips.component').then(m => m.DriverTripsComponent), canActivate: [authGuard] },
+  { path: 'driver-profile', loadComponent: () => import('./pages/driver-profile/driver-profile.component').then(m => m.DriverProfileComponent), canActivate: [authGuard] },
+  { path: 'payments', loadComponent: () => import('./pages/payments/payments.component').then(m => m.PaymentsComponent), canActivate: [authGuard] },
 ];
