@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+db.sqlite3
+
+# Angular / Node
+node_modules/
+.angular/
+dist/
+.editorconfig
+
+# OS
+.DS_Store
+Thumbs.db
