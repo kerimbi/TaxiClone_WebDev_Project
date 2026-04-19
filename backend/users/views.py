@@ -25,7 +25,8 @@ class RegisterView(generics.CreateAPIView):
                 defaults={
                     'license_number': f'LIC-{user.pk:06d}',
                     'car_model': 'Not specified',
-                    'car_plate': 'AA000AA',
+                    'car_plate': '000AAA00',
+                    'car_color': 'White',
                 }
             )
 
