@@ -1,0 +1,343 @@
+{
+  "info": {
+    "_postman_id": "469385fb-e757-4838-a95c-e881a4063044",
+    "name": "Taxi",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53612108",
+    "_collection_link": "https://go.postman.co/collection/53612108-469385fb-e757-4838-a95c-e881a4063044?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n    {\r\n        \"username\": \"dimash123\",\r\n        \"email\": \"dimash@example.com\",\r\n        \"password\": \"qwerty12\",\r\n        \"password2\": \"qwerty12\",\r\n        \"role\": \"driver\"\r\n    }\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/auth/register/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "auth",
+                "register",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"dimash\",\r\n    \"password\": \"qwerty12\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/auth/login/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "auth",
+                "login",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Authorization",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2Njk1NjEyLCJpYXQiOjE3NzY2OTIwMTIsImp0aSI6ImEyNWJiMDAwZjJkZDRjYTZiY2NhNWVjNjczMDYyZGU0IiwidXNlcl9pZCI6N30.0LeaU0jKLFWEahvpbhfA-exG-yzW2qVkPdToCgzip3Q",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n     \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc3NzI5NjgxMiwiaWF0IjoxNzc2NjkyMDEyLCJqdGkiOiJhYmQ0N2MwZTdiYjE0NWJjOGIzZDg3YTk2NWIxNWU4YiIsInVzZXJfaWQiOjd9.5NFoX0Fa56uzItSonLUgsyvKAH5DQZADgOYjBUhu_hc\",\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/auth/profile/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "auth",
+                "profile",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "drivers",
+      "item": [
+        {
+          "name": "Driver location",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Request Trip",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2Njk5Nzk5LCJpYXQiOjE3NzY2OTYxOTksImp0aSI6ImU5MmMzZmIyMTFiNDRjNzM5NzUyMDQ1YmViYjA1NTlhIiwidXNlcl9pZCI6N30.s6UfQdEnBFyxQKRlWBPRTmLOWyjTSs5Ced_OFuPho7w",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n{\r\n    \"pickup_lat\": 51.1801,\r\n    \"pickup_lng\": 71.4460,\r\n    \"dropoff_lat\": 51.1895,\r\n    \"dropoff_lng\": 71.4598,\r\n    \"pickup_address\": 34.564,\r\n    \"dropoff_address\": 89.543\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/trips/request/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "trips",
+                "request",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "trips",
+      "item": [
+        {
+          "name": "Trips",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2Njk5Nzk5LCJpYXQiOjE3NzY2OTYxOTksImp0aSI6ImU5MmMzZmIyMTFiNDRjNzM5NzUyMDQ1YmViYjA1NTlhIiwidXNlcl9pZCI6N30.s6UfQdEnBFyxQKRlWBPRTmLOWyjTSs5Ced_OFuPho7w",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/trips/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "trips",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Trip Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2Njk5Nzk5LCJpYXQiOjE3NzY2OTYxOTksImp0aSI6ImU5MmMzZmIyMTFiNDRjNzM5NzUyMDQ1YmViYjA1NTlhIiwidXNlcl9pZCI6N30.s6UfQdEnBFyxQKRlWBPRTmLOWyjTSs5Ced_OFuPho7w",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n{\r\n    \"pickup_lat\": 51.1802,\r\n    \"pickup_lng\": 71.4460,\r\n    \"dropoff_lat\": 51.1895,\r\n    \"dropoff_lng\": 71.4598,\r\n    \"pickup_address\": 34.564,\r\n    \"dropoff_address\": 89.543\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/trips/request/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "trips",
+                "request",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Accept Trip",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2Njk5Nzk5LCJpYXQiOjE3NzY2OTYxOTksImp0aSI6ImU5MmMzZmIyMTFiNDRjNzM5NzUyMDQ1YmViYjA1NTlhIiwidXNlcl9pZCI6N30.s6UfQdEnBFyxQKRlWBPRTmLOWyjTSs5Ced_OFuPho7w",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/trips/18/accept/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "trips",
+                "18",
+                "accept",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc2Njk5Nzk5LCJpYXQiOjE3NzY2OTYxOTksImp0aSI6ImU5MmMzZmIyMTFiNDRjNzM5NzUyMDQ1YmViYjA1NTlhIiwidXNlcl9pZCI6N30.s6UfQdEnBFyxQKRlWBPRTmLOWyjTSs5Ced_OFuPho7w",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/trips/18/complete/",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "trips",
+                "18",
+                "complete",
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
